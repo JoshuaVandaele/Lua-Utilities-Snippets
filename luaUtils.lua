@@ -26,9 +26,7 @@ USAGES:
 	
 	table.merge({"table1"},{"table2}) -- combine 2 tables
 
-	string.mix("str") -- randomly mix a string
-
-	math.mix(int) -- randomly mix a number
+	mix("str or int") -- Mix the given string/number
 
 	typecheck -- Advanced type checking.
 ]]
@@ -246,28 +244,30 @@ function table.merge(t1,t2)
 	return t
 end
 
-function string.mix(str)
-	str = tostring(str)
-	local out = {}
-	for i = 1,#str do
-		table.insert(out,str:sub(i,i))
+function mix(unknown)
+	local n = false
+	if type(unknown) == "number" then
+		unknown = tostring(unknown)
+		n = true
 	end
-	for i = 1,#str do
-		local a = math.random(1,#str)
-		local b = math.random(1,#str)
+	local out = {}
+	for i = 1,#unknown do
+		table.insert(out,unknown:sub(i,i))
+	end
+	for i = 1,#unknown do
+		local a = math.random(1,#unknown)
+		local b = math.random(1,#unknown)
 		local atemp = out[a]
 		out[a] = out[b]
 		out[b] = atemp
 	end
-	return table.concat(out)
+	local out = table.concat(out)
+	if n then
+		out = tonumber(out)
+	end
+	return out
 end
 
-function math.mix(int)
-	if not typecheck(int) == "number" then
-		error("I need a number pl0x.")
-	end
-	return tonumber(string.mix(int))
-end
 
 return {
 	---------------console
@@ -291,7 +291,7 @@ return {
 	table.to2D,
 	table.toString,
 	---------------math
-	math.mix
+	--math.?
 	---------------Others
 	sleep,
 	typecheck
