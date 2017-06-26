@@ -27,8 +27,26 @@ USAGES:
 	table.merge({"table1"},{"table2}) -- combine 2 tables
 
 	string.mix("str") -- randomly mix a string
+
+	math.mix(int) -- randomly mix a number
+
+	typecheck -- Advanced type checking.
 ]]
 console = {}
+
+function typecheck(unknown)
+	if not unknown then
+		return
+	elseif type(unknown) == "table" then
+		return "table"
+	elseif type(tonumber(unknown)) == "number" then
+		return 'number'
+	elseif type(tostring(unknown)) then
+		return 'string'
+	else
+		return 'unknown'
+	end
+end
 
 function console.log(type,...)
 	if not type then
@@ -229,6 +247,7 @@ function table.merge(t1,t2)
 end
 
 function string.mix(str)
+	str = tostring(str)
 	local out = {}
 	for i = 1,#str do
 		table.insert(out,str:sub(i,i))
@@ -241,6 +260,13 @@ function string.mix(str)
 		out[b] = atemp
 	end
 	return table.concat(out)
+end
+
+function math.mix(int)
+	if not typecheck(int) == "number" then
+		error("I need a number pl0x.")
+	end
+	return tonumber(string.mix(int))
 end
 
 return {
@@ -265,7 +291,8 @@ return {
 	table.to2D,
 	table.toString,
 	---------------math
-	--math.bullshit
+	math.mix
 	---------------Others
-	sleep
+	sleep,
+	typecheck
 }
