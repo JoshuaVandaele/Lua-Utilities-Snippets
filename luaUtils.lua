@@ -22,9 +22,11 @@ USAGES:
 	
 	string.split("str","split") -- split a string into a table.
 
-	os.find("file","directory","os") -- Find a folder or a file in the directory
+	os.find("file","directory") -- Find a folder or a file in the directory
 	
 	table.merge({"table1"},{"table2}) -- combine 2 tables
+
+	string.mix("str") -- randomly mix a string
 ]]
 console = {}
 
@@ -158,8 +160,8 @@ function string.split(str,split)
 	return array
 end
 
-function os.find(file,path,os)
-	
+function os.find(file,path)
+	local os = os.getOS()
 	if os:lower() == "windows" then 
 		cmd = "dir" 
 	elseif os:lower() == "linux" or os:lower() == "mac" or os:lower() == "macos" then
@@ -177,6 +179,16 @@ function os.find(file,path,os)
 		return true
 	else
 		return false
+	end
+end
+
+function os.getOS()
+	if package.config:sub(1,1) == '\\' then 
+		return 'windows'
+	elseif  package.config:sub(1,1) == '/' then
+		return 'unix'
+	else
+		return 'unknown'
 	end
 end
 
@@ -216,6 +228,20 @@ function table.merge(t1,t2)
 	return t
 end
 
+function string.mix(str)
+	local out = {}
+	for i = 1,#str do
+		table.insert(out,str:sub(i,i))
+	end
+	for i = 1,#str do
+		local a = math.random(1,#str)
+		local b = math.random(1,#str)
+		local atemp = out[a]
+		out[a] = out[b]
+		out[b] = atemp
+	end
+	return table.concat(out)
+end
 
 return {
 	---------------console
@@ -229,9 +255,11 @@ return {
 	---------------string
 	string.random,
 	string.split,
+	string.mix,
 	---------------os
 	os.find,
 	os.clear,
+	os.getOS,
 	---------------table
 	table.merge,
 	table.to2D,
