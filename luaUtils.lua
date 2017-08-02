@@ -10,13 +10,16 @@ USAGES:
 	
 	sleep(2) -- Time to wait 
 
-	console.slowprint("str") -- Prints a string slowly (Uses sleep function)
+	console.slowPrint("str") -- Prints a string slowly (Uses sleep function)
 	
+	console.slowWrite("str") -- Writes a string slowly (Uses sleep function)
+
 	io.readfile("path/to/file") -- Returns the content of a file
 
 	table.toString({"table"}) -- Returns a table as a string
 
-	io.store("filename","data",false) -- io.store data in a file and the "false" means no new line at end of the file
+	io.store("filename","data",false) -- io.store data in a file and the "false" 
+	means no new line at end of the file
 
 	string.random(2) -- How many random characters you want.
 	
@@ -26,11 +29,155 @@ USAGES:
 	
 	table.merge({"table1"},{"table2}) -- combine 2 tables
 
-	mix("str or int") -- Mix the given string/number
+	mix("str or int") -- Can also be used string.mix or math.mix : Mix the given
+	string/number 
 
-	typecheck -- Advanced type checking.
+	typecheck() -- Advanced type checking.
+
+	table.list({"table"}) -- List a table (Also return count)
+
+	os.getOS -- Get your OS
+
+	table.head -- return first value of a table
+
+	table.tail -- return the tail of a table
+
+	morse -- table used for string.toMorse()
+
+	string.toMorse("str") -- convert text to morse
+
+	string.startswith("str","s") -- check if "str" starts with "s"
+
+	string.endswith("str","tr") -- check if "str" ends with "tr"
 ]]
+
+
+
+--[[Notes for me:
+Make an object:
+
+obj = setmetatable({},
+ {
+ __func = function () 
+--Code
+end})
+
+How I do it:
+t = {}
+funtion crap()
+ return "crap"
+end
+t.obj = crap()
+
+not even sure it's an object lol
+]]
+
 console = {}
+
+--took that from http://lua-users.org/wiki/FunctionalLibrary !
+ operator = {
+     mod = math.mod;
+     pow = math.pow;
+     add = function(n, m) return n + m end;
+     sub = function(n, m) return n - m end;
+     mul = function(n, m) return n * m end;
+     div = function(n, m) return n / m end;
+     gt  = function(n, m) return n > m end;
+     lt  = function(n, m) return n < m end;
+     eq  = function(n, m) return n == m end;
+     le  = function(n, m) return n <= m end;
+     ge  = function(n, m) return n >= m end;
+     ne  = function(n, m) return n ~= m end;
+ }
+--
+morse = {
+  ["a"] = ".-",
+  ["b"] = "-...",
+  ["c"] = "-.-.",
+  ["d"] = "-..",
+  ["e"] = ".",
+  ["f"] = "..-.",
+  ["g"] = "--.",
+  ["h"] = "....",
+  ["i"] = "..",
+  ["j"] = ".---",
+  ["k"] = "-.-",
+  ["l"] = ".-..",
+  ["m"] = "--",
+  ["n"] = "-.",
+  ["o"] = "---",
+  ["p"] = ".--.",
+  ["q"] = "--.-",
+  ["r"] = ".-.",
+  ["s"] = "...",
+  ["t"] = "-",
+  ["u"] = "..-",
+  ["v"] = "...-",
+  ["w"] = ".--",
+  ["x"] = "-..-",
+  ["y"] = "-.--",
+  ["z"] = "--..",
+  ["0"] = "-----",
+  ["1"] = ".----",
+  ["2"] = "..---",
+  ["3"] = "...--",
+  ["4"] = "....-",
+  ["5"] = ".....",
+  ["6"] = "-....",
+  ["7"] = "--...",
+  ["8"] = "---..",
+  ["9"] = "----.",
+  ['"'] = "--..--",
+  ["?"] = "..--..",
+  ["'"] = ".----.",
+  ["!"] = "-.-.--",
+  ["/"] = "-..-.",
+  ["("] = "-.--.",
+  [")"] = "-.--.-",
+  ["&"] = ".-...",
+  [":"] = "---...",
+  [";"] = "-.-.-.",
+  ["="] = "-...-",
+  ["+"] = ".-.-.",
+  ["_"] = "..--.-",
+  ['"'] = ".-..-.",
+  ["&"] = "...-..-",
+  ["@"] = ".--.-."
+}
+
+function console.error(type,msg,other)
+	
+	if other ~= nil then
+		other = "Other informations: " .. other .. "\n"
+	else
+		other = ""
+	end
+	if msg ~= nil then
+		msg = "\nDetailed message: " .. msg .. "\n"
+	else
+		msg = ""
+	end
+
+	if not type then
+		type = "Unknown"
+	end
+
+	error(os.date("\n[%x|%X]") .. " An error occured !\nType : " .. type .. msg 
+		.. other)
+end
+
+function os.__getOS()
+	if package.config:sub(1, 1) == '\\' then 
+		return 'windows'
+	elseif  package.config:sub(1, 1) == '/' then
+		return 'unix'
+	else
+		return 'unknown'
+	end
+end
+
+os.getOS = os.__getOS()
+
 
 function typecheck(unknown)
 	if not unknown then
@@ -48,7 +195,7 @@ end
 
 function console.log(type,...)
 	if not type then
-		error("No type provided !")
+		console.error("No type provided !")
 	end
 	print(os.date("[%x|%X] [" .. type:upper() .. "]"),...)
 end
@@ -92,27 +239,7 @@ function table.toString(t)
 	return "{" .. a .. "}"
 end
 
-function console.error(type,msg,other)
-	
-	if other ~= nil then
-		other = "Other informations: " .. other .. "\n"
-	else
-		other = ""
-	end
-	if msg ~= nil then
-		msg = "\nDetailed message: " .. msg .. "\n"
-	else
-		msg = ""
-	end
-
-	if not type then
-		type = "Unknown"
-	end
-
-	error(os.date("\n[%x|%X]") .. " An error occured !\nType : " .. type .. msg .. other)
-end
-
-function console.slowprint(str)
+function console.slowPrint(str)
 	str = tostring(str)
 	
 	if not type(str) == 'string' then 
@@ -123,9 +250,24 @@ function console.slowprint(str)
 	for i = 1,#str do
 		n = n + 1
 		sleep(0.05)
-		io.write(str:sub(n,n))
+		io.write(str:sub(n, n))
 	end
 	print()
+end
+
+function console.slowWrite(str)
+	str = tostring(str)
+	
+	if not type(str) == 'string' then 
+		return nil
+	end
+
+	n = 0
+	for i = 1,#str do
+		n = n + 1
+		sleep(0.05)
+		io.write(str:sub(n, n))
+	end
 end
 
 function io.readfile(path)
@@ -136,7 +278,7 @@ function io.readfile(path)
     return content
 end
 
-function io.store(file,data,nl)
+function io.store(file, data, nl)
 	if not file or not data then 
 		return false
 	end
@@ -147,8 +289,8 @@ function io.store(file,data,nl)
 		nl = "\n"
 	end
 
-	file = io.open(file,"a+")
-	file:write(data,nl)
+	file = io.open(file, "a+")
+	file:write(data, nl)
 	file:close()
 	return true
 end
@@ -156,7 +298,7 @@ end
 function string.random(count)
 	count = tonumber(count)
 	if not type(count) == "number" then 
-		error("string.random requires a number.")
+		console.error("string.random requires a number.")
 	end
 	local rds = ""
 	for i = 1,count do
@@ -167,7 +309,8 @@ end
 
 function string.split(str,split)
 	if not str then
-		err("Can't split with nil","Hey have you tried splitting air? Spoiler: it dont work")
+		console.error("Can't split with nil","Hey have you tried splitting " .. 
+			"air? Spoiler: it dont work")
 	end
 	local array = {}
 	for w in (str .. split):gmatch("([^" .. split .. "]*)" .. split) do 
@@ -177,38 +320,32 @@ function string.split(str,split)
 end
 
 function os.find(file,path)
-	local os = os.getOS()
+	local os = os.getOS
 	if os:lower() == "windows" then 
 		cmd = "dir" 
-	elseif os:lower() == "linux" or os:lower() == "mac" or os:lower() == "macos" then
+	elseif os:lower() == "linux" or os:lower() == "mac" or os:lower() == "macos"
+		  then
 		cmd = "ls"
 	else
-		error("Invalid OS!")
+		console.error("Invalid OS!")
 	end
 
 	if not file then
-		err("Can't find \"nil\"","Seriously, I found it, it's in your head...","What did you expect me to say? like searching NOTHING, NIL, VOID, EMPTY...\nJust kidding of course.")
+		console.error("Can't find \"nil\"","Seriously, I found it, it's in y" ..
+			"our head...","What did you expect me to say? like searching NOT" ..
+			"HING, NIL, VOID, EMPTY...\nJust kidding of course.")
 	end
 	
-	local f = io.popen(cmd .." ".. path)
-	if string.find(f:read("*a"),file) then
+	local f = io.popen(cmd .. " " .. path)
+	if string.find(f:read("*a"), file) then
 		return true
 	else
 		return false
 	end
 end
 
-function os.getOS()
-	if package.config:sub(1,1) == '\\' then 
-		return 'windows'
-	elseif  package.config:sub(1,1) == '/' then
-		return 'unix'
-	else
-		return 'unknown'
-	end
-end
 
-function table.merge(t1,t2)
+function table.merge(t1, t2)
 	if not t1 then
 		return false
 	end
@@ -218,27 +355,27 @@ function table.merge(t1,t2)
 	local t = {}
 	for _,a,b,c in pairs(t1) do
 		if a and b and c then
-			table.insert(t,a)
-			table.insert(t,b)
-			table.insert(t,c)
+			table.insert(t, a)
+			table.insert(t, b)
+			table.insert(t, c)
 		elseif a and b then
-			table.insert(t,a)
-			table.insert(t,b)			
+			table.insert(t, a)
+			table.insert(t, b)			
 		else
-			table.insert(t,a)
+			table.insert(t, a)
 		end
 	end
 
-	for _,a,b,c in pairs(t2) do
+	for _, a, b, c in pairs(t2) do
 		if a and b and c then
-			table.insert(t,a)
-			table.insert(t,b)
-			table.insert(t,c)
+			table.insert(t, a)
+			table.insert(t, b)
+			table.insert(t, c)
 		elseif a and b then
-			table.insert(t,a)
-			table.insert(t,b)			
+			table.insert(t, a)
+			table.insert(t, b)			
 		else
-			table.insert(t,a)
+			table.insert(t, a)
 		end
 	end
 	return t
@@ -251,12 +388,12 @@ function mix(unknown)
 		n = true
 	end
 	local out = {}
-	for i = 1,#unknown do
-		table.insert(out,unknown:sub(i,i))
+	for i = 1, #unknown do
+		table.insert(out,unknown:sub(i, i))
 	end
-	for i = 1,#unknown do
-		local a = math.random(1,#unknown)
-		local b = math.random(1,#unknown)
+	for i = 1, #unknown do
+		local a = math.random(1, #unknown)
+		local b = math.random(1, #unknown)
 		local atemp = out[a]
 		out[a] = out[b]
 		out[b] = atemp
@@ -268,20 +405,76 @@ function mix(unknown)
 	return out
 end
 
+string.mix = mix
+math.mix = mix
+
+function table.list(t)
+	local tstr = ""
+	local c = 0
+	for k,v in pairs(t) do
+		c = c+1
+		if v then
+			tstr = tstr .. k .. " = " .. v
+		else
+			tstr = tstr .. k
+		end
+		tstr = tstr .. "\n"
+	end
+	return tstr, c
+end
+
+ function table.head(t)
+     return t[1]
+ end
+
+function table.tail(t)
+	local nt = {}
+	local _,ts = table.list(t)
+	if ts < 1 then
+		return {}
+	end
+	i = 2
+	while (i <= ts) do
+		table.insert(nt, (i - 1), t[i])
+		i = i + 1
+	end
+	return nt
+end
+
+function string.toMorse(str)
+  local m = str:gsub('.', function(m)
+    if morse[m:lower()] then return morse[m:lower()]..' ' end
+  end)
+  return m
+end
+
+function string.startswith(str, ptrn)
+	return string.find(str, ptrn, 1) == 1
+end
+
+function string.endswith(str, ptrn)
+	local s = #str + 1 - #ptrn
+	return string.find(str, ptrn, s) == s
+end
+
 
 return {
 	---------------console
 	console,
 	console.log,
-	console.slowprint,
+	console.slowPrint,
+	console.slowWrite,
 	console.error,
-	--io
+	---------------io
 	io.readfile,
 	io.store,
 	---------------string
 	string.random,
 	string.split,
 	string.mix,
+	string.toMorse,
+	string.startswith,
+	string.endswith,
 	---------------os
 	os.find,
 	os.clear,
@@ -290,9 +483,15 @@ return {
 	table.merge,
 	table.to2D,
 	table.toString,
+	table.list,
+	table.head,
+	table.tail,
 	---------------math
-	--math.?
+	math.mix,
 	---------------Others
 	sleep,
-	typecheck
+	typecheck,
+	operator,
+	mix,
+	morse
 }
