@@ -32,8 +32,6 @@ USAGES:
 	mix("str or int") -- Can also be used string.mix or math.mix : Mix the given
 	string/number 
 
-	typecheck() -- Advanced type checking.
-
 	table.list({"table"}) -- List a table (Also return count)
 
 	os.getOS -- Get your OS
@@ -179,20 +177,6 @@ end
 os.getOS = os.__getOS()
 
 
-function typecheck(unknown)
-	if not unknown then
-		return
-	elseif type(unknown) == "table" then
-		return "table"
-	elseif type(tonumber(unknown)) == "number" then
-		return 'number'
-	elseif type(tostring(unknown)) then
-		return 'string'
-	else
-		return 'unknown'
-	end
-end
-
 function console.log(type,...)
 	if not type then
 		console.error("No type provided !")
@@ -295,14 +279,30 @@ function io.store(file, data, nl)
 	return true
 end
 
-function string.random(count)
-	count = tonumber(count)
-	if not type(count) == "number" then 
-		console.error("string.random requires a number.")
+function string.random(count,min,max)
+	
+	if not count then
+		count = 1
 	end
+	if not max then
+		max = 255
+	end
+
+	if not min then 
+		min = 1
+	end
+	
+	if max > 255 or min < 1 or max < 1 or min > 255 then
+		console.error("Synthax error: Select a number between 1-255.")
+	elseif max < min then
+		local tmin = min
+		max = min
+		max = tmin
+	end
+
 	local rds = ""
 	for i = 1,count do
-		rds = rds .. string.char(math.random(1,255))
+		rds = rds .. string.char(math.random(min,max))
 	end
 	return rds
 end
@@ -441,13 +441,6 @@ function table.tail(t)
 	return nt
 end
 
-function string.toMorse(str)
-  local m = str:gsub('.', function(m)
-    if morse[m:lower()] then return morse[m:lower()]..' ' end
-  end)
-  return m
-end
-
 function string.startswith(str, ptrn)
 	return string.find(str, ptrn, 1) == 1
 end
@@ -472,7 +465,6 @@ return {
 	string.random,
 	string.split,
 	string.mix,
-	string.toMorse,
 	string.startswith,
 	string.endswith,
 	---------------os
@@ -490,7 +482,6 @@ return {
 	math.mix,
 	---------------Others
 	sleep,
-	typecheck,
 	operator,
 	mix,
 	morse
