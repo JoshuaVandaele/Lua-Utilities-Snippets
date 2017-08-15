@@ -18,7 +18,7 @@ USAGES:
 
 	table.toString({"table"}) -- Returns a table as a string
 
-	io.store("filename","data",false) -- io.store data in a file and the "false" 
+	io.store("filename","data",false) -- io.store store data in a file and the "false" 
 	means no new line at end of the file
 
 	string.random(2) -- How many random characters you want.
@@ -27,9 +27,9 @@ USAGES:
 
 	os.find("file","directory") -- Find a folder or a file in the directory
 	
-	table.merge({"table1"},{"table2}) -- combine 2 tables
+	table.merge({"table1"},{"table2"}) -- combine 2 tables
 
-	mix("str or int") -- Can also be used string.mix or math.mix : Mix the given
+	mix("str or int") -- Can also be used with the synthax string.mix or math.mix : Mix the given
 	string/number 
 
 	table.list({"table"}) -- List a table (Also return count)
@@ -40,13 +40,13 @@ USAGES:
 
 	table.tail -- return the tail of a table
 
-	morse -- table used for string.toMorse()
-
-	string.toMorse("str") -- convert text to morse
+	morse -- table
 
 	string.startswith("str","s") -- check if "str" starts with "s"
 
 	string.endswith("str","tr") -- check if "str" ends with "tr"
+
+	os.getArch() -- get Lua architecture -32/64 bits
 ]]
 
 
@@ -164,7 +164,7 @@ function console.error(type,msg,other)
 		.. other)
 end
 
-function os.__getOS()
+function os.getOS()
 	if package.config:sub(1, 1) == '\\' then 
 		return 'windows'
 	elseif  package.config:sub(1, 1) == '/' then
@@ -174,8 +174,9 @@ function os.__getOS()
 	end
 end
 
-os.getOS = os.__getOS()
-
+function os.getArch()
+ return (#tostring({})-7)*4
+end
 
 function console.log(type,...)
 	if not type then
@@ -184,10 +185,9 @@ function console.log(type,...)
 	print(os.date("[%x|%X] [" .. type:upper() .. "]"),...)
 end
 
-function sleep (a) 
-    local sec = tonumber(os.clock() + a); 
-    while (os.clock() < sec) do 
-    end 
+function sleep(s)
+  local t = os.clock() + s
+  repeat until os.clock() > t
 end
 
 function os.clear()
@@ -291,7 +291,7 @@ function string.random(count,min,max)
 	if not min then 
 		min = 1
 	end
-	
+
 	if max > 255 or min < 1 or max < 1 or min > 255 then
 		console.error("Synthax error: Select a number between 1-255.")
 	elseif max < min then
@@ -305,6 +305,18 @@ function string.random(count,min,max)
 		rds = rds .. string.char(math.random(min,max))
 	end
 	return rds
+end
+
+function string.fromhex(str)
+    return (str:gsub('..', function (cc)
+        return string.char(tonumber(cc, 16))
+    end))
+end
+
+function string.tohex(str)
+    return (str:gsub('.', function (c)
+        return string.format('%02X', string.byte(c))
+    end))
 end
 
 function string.split(str,split)
@@ -414,7 +426,7 @@ function table.list(t)
 	for k,v in pairs(t) do
 		c = c+1
 		if v then
-			tstr = tstr .. k .. " = " .. v
+			tstr = tstr .. k .. " === " .. v
 		else
 			tstr = tstr .. k
 		end
@@ -467,10 +479,13 @@ return {
 	string.mix,
 	string.startswith,
 	string.endswith,
+	string.tohex,
+	string.fromhex,
 	---------------os
 	os.find,
 	os.clear,
 	os.getOS,
+	os.getArch,
 	---------------table
 	table.merge,
 	table.to2D,
