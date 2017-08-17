@@ -70,6 +70,10 @@ t.obj = crap()
 not even sure it's an object lol
 ]]
 
+chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+
+string.encode = {}
+string.decode = {}
 console = {}
 
 --took that from http://lua-users.org/wiki/FunctionalLibrary !
@@ -307,13 +311,13 @@ function string.random(count,min,max)
 	return rds
 end
 
-function string.fromhex(str)
+function string.decode.hex(str)
     return (str:gsub('..', function (cc)
         return string.char(tonumber(cc, 16))
     end))
 end
 
-function string.tohex(str)
+function string.encode.hex(str)
     return (str:gsub('.', function (c)
         return string.format('%02X', string.byte(c))
     end))
@@ -461,8 +465,38 @@ function string.endswith(str, ptrn)
 	local s = #str + 1 - #ptrn
 	return string.find(str, ptrn, s) == s
 end
+------B64 from http://lua-users.org/wiki/BaseSixtyFour--------------
+--I just edited the function names.
+-- Lua 5.1+ base64 v3.0 (c) 2009 by Alex Kloss <alexthkloss@web.de>
+-- licensed under the terms of the LGPL2
+function string.encode.b64(data)
+    return ((data:gsub('.', function(x) 
+        local r,b='',x:byte()
+        for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
+        return r;
+    end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
+        if (#x < 6) then return '' end
+        local c=0
+        for i=1,6 do c=c+(x:sub(i,i)=='1' and 2^(6-i) or 0) end
+        return chars:sub(c+1,c+1)
+    end)..({ '', '==', '=' })[#data%3+1])
+end
 
-
+function string.decode.b64(data)
+    data = string.gsub(data, '[^'..chars..'=]', '')
+    return (data:gsub('.', function(x)
+        if (x == '=') then return '' end
+        local r,f='',(char:find(x)-1)
+        for i=6,1,-1 do r=r..(f%2^i-f%2^(i-1)>0 and '1' or '0') end
+        return r;
+    end):gsub('%d%d%d?%d?%d?%d?%d?%d?', function(x)
+        if (#x ~= 8) then return '' end
+        local c=0
+        for i=1,8 do c=c+(x:sub(i,i)=='1' and 2^(8-i) or 0) end
+        return string.char(c)
+    end))
+end
+--------------------------------------------------------------------
 return {
 	---------------console
 	console,
@@ -479,8 +513,12 @@ return {
 	string.mix,
 	string.startswith,
 	string.endswith,
-	string.tohex,
-	string.fromhex,
+	string.encode,
+	string.decode,
+	string.encode.hex,
+	string.decode.hex,
+	string.encode.b64,
+	string.decode.b64
 	---------------os
 	os.find,
 	os.clear,
@@ -499,5 +537,6 @@ return {
 	sleep,
 	operator,
 	mix,
-	morse
+	morse,
+	chars
 }
