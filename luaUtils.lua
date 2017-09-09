@@ -18,8 +18,8 @@ USAGES:
 
 	table.toString({"table"}) -- Returns a table as a string
 
-	io.store("filename","data",false) -- io.store store data in a file and the "false" 
-	means no new line at end of the file
+	io.store("filename","data",false) -- io.store store data in a file and the 
+	"false" means no new line at end of the file
 
 	string.random(2) -- How many random characters you want.
 	
@@ -29,8 +29,8 @@ USAGES:
 	
 	table.merge({"table1"},{"table2"}) -- combine 2 tables
 
-	mix("str or int") -- Can also be used with the synthax string.mix or math.mix : Mix the given
-	string/number 
+	mix("str or int") -- Can also be used with the synthax string.mix or 
+	math.mix : Mix the given string/number 
 
 	table.list({"table"}) -- List a table (Also return count)
 
@@ -336,20 +336,20 @@ function string.split(str,split)
 end
 
 function os.find(file,path)
-	local os = os.getOS
-	if os:lower() == "windows" then 
+	local os = os.getOS:lower()
+	if os == "windows" then 
 		cmd = "dir" 
-	elseif os:lower() == "linux" or os:lower() == "mac" or os:lower() == "macos"
-		  then
+	elseif os == "linux" or os == "mac" or os == "macos"
+	then
 		cmd = "ls"
 	else
 		console.error("Invalid OS!")
 	end
 
 	if not file then
-		console.error("Can't find \"nil\"","Seriously, I found it, it's in y" ..
-			"our head...","What did you expect me to say? like searching NOT" ..
-			"HING, NIL, VOID, EMPTY...\nJust kidding of course.")
+		console.error("Can't find \"nil\"","git gud"
+			,"What did you expect me to say? like searching NOT" ..
+			"HING, NIL, NULL, EMPTY, etc.. :<")
 	end
 	
 	local f = io.popen(cmd .. " " .. path)
@@ -376,7 +376,7 @@ function table.merge(t1, t2)
 			table.insert(t, c)
 		elseif a and b then
 			table.insert(t, a)
-			table.insert(t, b)			
+			table.insert(t, b)
 		else
 			table.insert(t, a)
 		end
@@ -389,7 +389,7 @@ function table.merge(t1, t2)
 			table.insert(t, c)
 		elseif a and b then
 			table.insert(t, a)
-			table.insert(t, b)			
+			table.insert(t, b)
 		else
 			table.insert(t, a)
 		end
