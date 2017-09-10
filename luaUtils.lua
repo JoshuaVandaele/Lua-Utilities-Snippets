@@ -47,27 +47,10 @@ USAGES:
 	string.endswith("str","tr") -- check if "str" ends with "tr"
 
 	os.getArch() -- get Lua architecture -32/64 bits
-]]
 
-
-
---[[Notes for me:
-Make an object:
-
-obj = setmetatable({},
- {
- __func = function () 
---Code
-end})
-
-How I do it:
-t = {}
-funtion crap()
- return "crap"
-end
-t.obj = crap()
-
-not even sure it's an object lol
+	table.find({"a","b","c","d"},"c") -- Search for a value in a table, 
+	also returns where is the value (in this case, 3)
+	if nothing is found it will return nil, -1
 ]]
 
 chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
@@ -429,14 +412,20 @@ function table.list(t)
 	local c = 0
 	for k,v in pairs(t) do
 		c = c+1
-		if v then
-			tstr = tstr .. k .. " === " .. v
-		else
-			tstr = tstr .. k
-		end
-		tstr = tstr .. "\n"
+		tstr = tstr .. k .. " = " .. v .. ",\n"
 	end
-	return tstr, c
+	return tstr:sub(0,#tstr-2), c
+end
+
+function table.find(t, value)
+	local c = 0
+	for k, v in pairs(t) do
+		c = c+1
+		if value == v then
+			return v, c
+		end
+	end
+	return nil, -1
 end
 
  function table.head(t)
@@ -531,6 +520,7 @@ return {
 	table.list,
 	table.head,
 	table.tail,
+	table.find;
 	---------------math
 	math.mix,
 	---------------Others
