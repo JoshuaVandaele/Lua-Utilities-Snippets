@@ -1,57 +1,4 @@
---[[					Made By TheJoshua974
-USAGES:
-	console.log("TYPE","Message") -- Log something
 
-	os.clear() -- Clear the console 
-	
-	table.to2D("String or Numbers") -- Returns a table in a 2D Array
-	
-	console.error("Type","Message","Other Infos") --Advanced erroring
-	
-	sleep(2) -- Time to wait 
-
-	console.slowPrint("str") -- Prints a string slowly (Uses sleep function)
-	
-	console.slowWrite("str") -- Writes a string slowly (Uses sleep function)
-
-	io.readfile("path/to/file") -- Returns the content of a file
-
-	table.toString({"table"}) -- Returns a table as a string
-
-	io.store("filename","data",false) -- io.store store data in a file and the 
-	"false" means no new line at end of the file
-
-	string.random(2) -- How many random characters you want.
-	
-	string.split("str","split") -- split a string into a table.
-
-	os.find("file","directory") -- Find a folder or a file in the directory
-	
-	table.merge({"table1"},{"table2"}) -- combine 2 tables
-
-	mix("str or int") -- Can also be used with the synthax string.mix or 
-	math.mix : Mix the given string/number 
-
-	table.list({"table"}) -- List a table (Also return count)
-
-	os.getOS -- Get your OS
-
-	table.head -- return first value of a table
-
-	table.tail -- return the tail of a table
-
-	morse -- table
-
-	string.startswith("str","s") -- check if "str" starts with "s"
-
-	string.endswith("str","tr") -- check if "str" ends with "tr"
-
-	os.getArch() -- get Lua architecture -32/64 bits
-
-	table.find({"a","b","c","d"},"c") -- Search for a value in a table, 
-	also returns where is the value (in this case, 3)
-	if nothing is found it will return nil, -1
-]]
 
 chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
@@ -131,7 +78,7 @@ morse = {
 }
 
 function console.error(type,msg,other)
-	
+
 	if other ~= nil then
 		other = "Other informations: " .. other .. "\n"
 	else
@@ -147,17 +94,17 @@ function console.error(type,msg,other)
 		type = "Unknown"
 	end
 
-	error(os.date("\n[%x|%X]") .. " An error occured !\nType : " .. type .. msg 
+	error(os.date("\n[%x|%X]") .. " An error occured !\nType : " .. type .. msg
 		.. other)
 end
 
 function os.getOS()
-	if package.config:sub(1, 1) == '\\' then 
-		return 'windows'
+	if package.config:sub(1, 1) == '\\' then
+		return 'Windows'
 	elseif  package.config:sub(1, 1) == '/' then
-		return 'unix'
+		return 'UNIX'
 	else
-		return 'unknown'
+		return 'unknown operating system'
 	end
 end
 
@@ -167,7 +114,7 @@ end
 
 function console.log(type,...)
 	if not type then
-		console.error("No type provided !")
+		console.error("No type is provided")
 	end
 	print(os.date("[%x|%X] [" .. type:upper() .. "]"),...)
 end
@@ -212,8 +159,8 @@ end
 
 function console.slowPrint(str)
 	str = tostring(str)
-	
-	if not type(str) == 'string' then 
+
+	if not type(str) == 'string' then
 		return nil
 	end
 
@@ -228,8 +175,8 @@ end
 
 function console.slowWrite(str)
 	str = tostring(str)
-	
-	if not type(str) == 'string' then 
+
+	if not type(str) == 'string' then
 		return nil
 	end
 
@@ -250,7 +197,7 @@ function io.readfile(path)
 end
 
 function io.store(file, data, nl)
-	if not file or not data then 
+	if not file or not data then
 		return false
 	end
 
@@ -267,7 +214,7 @@ function io.store(file, data, nl)
 end
 
 function string.random(count,min,max)
-	
+
 	if not count then
 		count = 1
 	end
@@ -275,12 +222,12 @@ function string.random(count,min,max)
 		max = 255
 	end
 
-	if not min then 
+	if not min then
 		min = 1
 	end
 
 	if max > 255 or min < 1 or max < 1 or min > 255 then
-		console.error("Synthax error: Select a number between 1-255.")
+		console.error("Synthax error: Select a number between 1-255")
 	elseif max < min then
 		local tmin = min
 		max = min
@@ -308,25 +255,25 @@ end
 
 function string.split(str,split)
 	if not str then
-		console.error("Can't split with nil","Hey have you tried splitting " .. 
-			"air? Spoiler: it dont work")
+		console.error("Cannot split with nil","Hey have you tried splitting " ..
+			"air? Spoiler: It doesn't work")
 	end
 	local array = {}
-	for w in (str .. split):gmatch("([^" .. split .. "]*)" .. split) do 
-	   table.insert(array, w) 
-	end 
+	for w in (str .. split):gmatch("([^" .. split .. "]*)" .. split) do
+	   table.insert(array, w)
+	end
 	return array
 end
 
 function os.find(file,path)
 	local os = os.getOS:lower()
-	if os == "windows" then 
-		cmd = "dir" 
-	elseif os == "linux" or os == "mac" or os == "macos"
+	if os == "Windows" then
+		cmd = "dir"
+	elseif os == "Linux" or os == "Mac" or os == "macOS"
 	then
 		cmd = "ls"
 	else
-		console.error("Invalid OS!")
+		console.error("Invalid OS type")
 	end
 
 	if not file then
@@ -334,7 +281,7 @@ function os.find(file,path)
 			,"What did you expect me to say? like searching NOT" ..
 			"HING, NIL, NULL, EMPTY, etc.. :<")
 	end
-	
+
 	local f = io.popen(cmd .. " " .. path)
 	if string.find(f:read("*a"), file) then
 		return true
@@ -459,7 +406,7 @@ end
 -- Lua 5.1+ base64 v3.0 (c) 2009 by Alex Kloss <alexthkloss@web.de>
 -- licensed under the terms of the LGPL2
 function string.encode.b64(data)
-    return ((data:gsub('.', function(x) 
+    return ((data:gsub('.', function(x)
         local r,b='',x:byte()
         for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
         return r;
