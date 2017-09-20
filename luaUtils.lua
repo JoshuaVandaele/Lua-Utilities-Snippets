@@ -29,7 +29,7 @@ USAGES:
 	
 	table.merge({"table1"},{"table2"}) -- combine 2 tables
 
-	mix("str or int") -- Can also be used with string.mix or 
+	mix("str or int") -- Can also be used as string.mix or 
 	math.mix : Mix the given string/number 
 
 	table.list({"table"}) -- List a table (Also return count)
