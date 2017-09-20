@@ -130,7 +130,7 @@ morse = {
   ["@"] = ".--.-."
 }
 
-function console.error(type,msg,other)
+local function console.error(type,msg,other)
 	
 	if other ~= nil then
 		other = "Other informations: " .. other .. "\n"
@@ -151,7 +151,7 @@ function console.error(type,msg,other)
 		.. other)
 end
 
-function os.getOS()
+local function os.getOS()
 	if package.config:sub(1, 1) == '\\' then 
 		return 'windows'
 	elseif  package.config:sub(1, 1) == '/' then
@@ -161,23 +161,23 @@ function os.getOS()
 	end
 end
 
-function os.getArch()
+local function os.getArch()
  return (#tostring({})-7)*4
 end
 
-function console.log(type,...)
+local function console.log(type,...)
 	if not type then
 		console.error("No type provided !")
 	end
 	print(os.date("[%x|%X] [" .. type:upper() .. "]"),...)
 end
 
-function sleep(s)
+local function sleep(s)
   local t = os.clock() + s
   repeat until os.clock() > t
 end
 
-function os.clear()
+local function os.clear()
 	if not os.execute("clear") then
 		os.execute("cls")
 	elseif not os.execute("cls") then
@@ -187,7 +187,7 @@ function os.clear()
 	end
 end
 
-function table.to2D(arg)
+local function table.to2D(arg)
 	arg = tostring(arg)
 	t = {}
 	line = {}
@@ -205,12 +205,12 @@ function table.to2D(arg)
 end
 
 
-function table.toString(t)
+local function table.toString(t)
 	local a = table.concat(t,", ")
 	return "{" .. a .. "}"
 end
 
-function console.slowPrint(str)
+local function console.slowPrint(str)
 	str = tostring(str)
 	
 	if not type(str) == 'string' then 
@@ -226,7 +226,7 @@ function console.slowPrint(str)
 	print()
 end
 
-function console.slowWrite(str)
+local function console.slowWrite(str)
 	str = tostring(str)
 	
 	if not type(str) == 'string' then 
@@ -241,7 +241,7 @@ function console.slowWrite(str)
 	end
 end
 
-function io.readfile(path)
+local function io.readfile(path)
     local file = open(path, "rb")
     if not file then return nil end
     local content = file:read "*a"
@@ -249,7 +249,7 @@ function io.readfile(path)
     return content
 end
 
-function io.store(file, data, nl)
+local function io.store(file, data, nl)
 	if not file or not data then 
 		return false
 	end
@@ -266,7 +266,7 @@ function io.store(file, data, nl)
 	return true
 end
 
-function string.random(count,min,max)
+local function string.random(count,min,max)
 	
 	if not count then
 		count = 1
@@ -294,19 +294,19 @@ function string.random(count,min,max)
 	return rds
 end
 
-function string.decode.hex(str)
-    return (str:gsub('..', function (cc)
+local function string.decode.hex(str)
+    return (str:gsub('..', local function (cc)
         return string.char(tonumber(cc, 16))
     end))
 end
 
-function string.encode.hex(str)
-    return (str:gsub('.', function (c)
+local function string.encode.hex(str)
+    return (str:gsub('.', local function (c)
         return string.format('%02X', string.byte(c))
     end))
 end
 
-function string.split(str,split)
+local function string.split(str,split)
 	if not str then
 		console.error("Can't split with nil","Hey have you tried splitting " .. 
 			"air? Spoiler: it dont work")
@@ -318,7 +318,7 @@ function string.split(str,split)
 	return array
 end
 
-function os.find(file,path)
+local function os.find(file,path)
 	local os = os.getOS:lower()
 	if os == "windows" then 
 		cmd = "dir" 
@@ -344,7 +344,7 @@ function os.find(file,path)
 end
 
 
-function table.merge(t1, t2)
+local function table.merge(t1, t2)
 	if not t1 then
 		return false
 	end
@@ -380,7 +380,7 @@ function table.merge(t1, t2)
 	return t
 end
 
-function mix(unknown)
+local function mix(unknown)
 	local n = false
 	if type(unknown) == "number" then
 		unknown = tostring(unknown)
@@ -407,7 +407,7 @@ end
 string.mix = mix
 math.mix = mix
 
-function table.list(t)
+local function table.list(t)
 	local tstr = ""
 	local c = 0
 	for k,v in pairs(t) do
@@ -417,7 +417,7 @@ function table.list(t)
 	return tstr:sub(0,#tstr-2), c
 end
 
-function table.find(t, value)
+local function table.find(t, value)
 	local c = 0
 	for k, v in pairs(t) do
 		c = c+1
@@ -428,11 +428,11 @@ function table.find(t, value)
 	return nil, -1
 end
 
- function table.head(t)
+ local function table.head(t)
      return t[1]
  end
 
-function table.tail(t)
+local function table.tail(t)
 	local nt = {}
 	local _,ts = table.list(t)
 	if ts < 1 then
@@ -446,19 +446,19 @@ function table.tail(t)
 	return nt
 end
 
-function string.startswith(str, ptrn)
+local function string.startswith(str, ptrn)
 	return string.find(str, ptrn, 1) == 1
 end
 
-function string.endswith(str, ptrn)
+local function string.endswith(str, ptrn)
 	local s = #str + 1 - #ptrn
 	return string.find(str, ptrn, s) == s
 end
 ------B64 from http://lua-users.org/wiki/BaseSixtyFour--------------
---I just edited the function names.
+--I just edited the local function names.
 -- Lua 5.1+ base64 v3.0 (c) 2009 by Alex Kloss <alexthkloss@web.de>
 -- licensed under the terms of the LGPL2
-function string.encode.b64(data)
+local function string.encode.b64(data)
     return ((data:gsub('.', function(x) 
         local r,b='',x:byte()
         for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
@@ -471,7 +471,7 @@ function string.encode.b64(data)
     end)..({ '', '==', '=' })[#data%3+1])
 end
 
-function string.decode.b64(data)
+local function string.decode.b64(data)
     data = string.gsub(data, '[^'..chars..'=]', '')
     return (data:gsub('.', function(x)
         if (x == '=') then return '' end
