@@ -29,7 +29,7 @@ USAGES:
 	
 	table.merge({"table1"},{"table2"}) -- combine 2 tables
 
-	mix("str or int") -- Can also be used with the synthax string.mix or 
+	mix("str or int") -- Can also be used with string.mix or 
 	math.mix : Mix the given string/number 
 
 	table.list({"table"}) -- List a table (Also return count)
@@ -404,8 +404,8 @@ local function mix(unknown)
 	return out
 end
 
-string.mix = mix
-math.mix = mix
+local string.mix = mix
+local math.mix = mix
 
 local function table.list(t)
 	local tstr = ""
