@@ -18,7 +18,7 @@ same as above but for the end of the string
 * ```string.encode```
 table for encoding
 * ```string.decode```
-table or decoding
+table for decoding
 * ```string.encode.hex(str)```
 encode a string into hex
 * ```string.decode.hex(str)```
@@ -32,7 +32,7 @@ decode a string into base64
 * ```io.readfile(path/to/file.txt)```
 reads a file
 * ```io.store(file,content,true)```
-stores data nto a file, the "true" mean we do a new line at the end of the file for future storing
+stores data into a file, the "true" mean we do a new line at the end of the file for future storing
 
 ## OS
 * ```os.find("file","dir")```
@@ -79,3 +79,5 @@ Operators, can always be useful
 A table with char to morsein it
 * ```chars```
 a string with all chars, used for  ```string.encode.b64(str)```
+* ```mix```
+see  ```string.mix```
