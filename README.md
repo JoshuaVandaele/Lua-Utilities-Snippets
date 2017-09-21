@@ -3,8 +3,8 @@ Useful Utilities for Lua!
 
 This file was made firstly for myself, but then I wanted to share it with ppls, so here it is!
 
-#Utilities avaible:
-##String
+# Utilities avaible:
+## String
  * ```string.random(count,min,max) ``` 
 "count, min, max" are not required, this function returns a random string
 * ```string.split(str,split)```
@@ -28,13 +28,13 @@ encode a string into base64
 * ```string.decode.b64(str)```
 decode a string into base64
 
-##I/O
+## I/O
 * ```io.readfile(path/to/file.txt)```
 reads a file
 * ```io.store(file,content,true)```
 stores data nto a file, the "true" mean we do a new line at the end of the file for future storing
 
-##OS
+## OS
 * ```os.find("file","dir")```
 search for a file in a directory
 * ```os.clear()```
@@ -44,7 +44,7 @@ returns the current OS
 * ```os.getArch()```
 get if the arch is 64 bits or 32 bits
 
-##Table
+## Table
 * ```table.merge(t1,t2)```
 merges two tables
 * ```table.to2D(str)```
@@ -60,7 +60,7 @@ returns the tail of the table
 * ```table.find(tbl)```
 find a value in a table
 
-##Console
+## Console
 * ```console.log(str)```
 logs something with time and date
 * ```console.slowPrint(str)```
@@ -70,7 +70,7 @@ writes something slowly (using io.write)
 * ```console.error(error type, error message, additional infos)```
 advanced erroring
 
-##Others
+## Others
 * ```sleep(t)```
 will wait the amount of time given
 * ```operator```
