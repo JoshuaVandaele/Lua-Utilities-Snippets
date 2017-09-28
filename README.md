@@ -10,7 +10,7 @@ This file was made firstly for myself, but then I wanted to share it with ppls, 
 * ```string.split(str,split)```
 this function splits a string to a table
 * ```string.mix(str)```
-mix a string
+see ```mix```
 * ```string.startswith(str,pattern)```
 verify if a string starts with the pattern
 * ```string.endswith(str,pattern)```
@@ -33,6 +33,10 @@ decode a string into base64
 reads a file
 * ```io.store(file,content,true)```
 stores data into a file, the "true" mean we do a new line at the end of the file for future storing
+
+## Math
+* ```math.mix```
+see  ```mix```
 
 ## OS
 * ```os.find("file","dir")```
@@ -80,4 +84,4 @@ A table with char to morsein it
 * ```chars```
 a string with all chars, used for  ```string.encode.b64(str)```
 * ```mix```
-see  ```string.mix```
+mix a string or ints
