@@ -53,14 +53,14 @@ USAGES:
 	if nothing is found it will return nil, -1
 ]]
 
-chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
+local chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
-string.encode = {}
-string.decode = {}
-console = {}
+local string.encode = {}
+local string.decode = {}
+local console = {}
 
 --took that from http://lua-users.org/wiki/FunctionalLibrary !
- operator = {
+local operator = {
      mod = math.mod;
      pow = math.pow;
      add = function(n, m) return n + m end;
@@ -75,7 +75,7 @@ console = {}
      ne  = function(n, m) return n ~= m end;
  }
 --
-morse = {
+local morse = {
   ["a"] = ".-",
   ["b"] = "-...",
   ["c"] = "-.-.",
@@ -188,9 +188,9 @@ local function os.clear()
 end
 
 local function table.to2D(arg)
-	arg = tostring(arg)
-	t = {}
-	line = {}
+	local arg = tostring(arg)
+	local t = {}
+	local line = {}
 
 	for i = 1, #arg do
 	   local c = arg:sub(i,i)
@@ -211,13 +211,13 @@ local function table.toString(t)
 end
 
 local function console.slowPrint(str)
-	str = tostring(str)
+	local str = tostring(str)
 	
 	if not type(str) == 'string' then 
 		return nil
 	end
 
-	n = 0
+	local n = 0
 	for i = 1,#str do
 		n = n + 1
 		sleep(0.05)
@@ -227,13 +227,13 @@ local function console.slowPrint(str)
 end
 
 local function console.slowWrite(str)
-	str = tostring(str)
+	local str = tostring(str)
 	
 	if not type(str) == 'string' then 
 		return nil
 	end
 
-	n = 0
+	local n = 0
 	for i = 1,#str do
 		n = n + 1
 		sleep(0.05)
@@ -260,7 +260,7 @@ local function io.store(file, data, nl)
 		nl = "\n"
 	end
 
-	file = io.open(file, "a+")
+	local file = io.open(file, "a+")
 	file:write(data, nl)
 	file:close()
 	return true
@@ -320,6 +320,7 @@ end
 
 local function os.find(file,path)
 	local os = os.getOS:lower()
+	local cmd
 	if os == "windows" then 
 		cmd = "dir" 
 	elseif os == "linux" or os == "mac" or os == "macos"
