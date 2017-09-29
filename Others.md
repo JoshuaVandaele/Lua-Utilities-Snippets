@@ -7,4 +7,4 @@ Arguments: int or string
 _Mix the given int or string_
 * `dostring`  
 Arguments: String  
-_Remake of loadstring for Lua 5.3
+_Remake of loadstring for Lua 5.3_
