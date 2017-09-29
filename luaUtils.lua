@@ -441,6 +441,16 @@ local function string.decode.b64(data)
     end))
 end
 --------------------------------------------------------------------
+
+local function dostring(str)
+	local f = io.open("dostring.tmp","w") -- open the file
+	f:write(str) -- write the str
+	f:close() -- close the file
+
+	local result = dofile("dostring.tmp") -- execute the file
+	os.remove("dostring.tmp") -- remove the file
+	return result -- return the result if anything outputs
+end
 return {
 	---------------console
 	console,
@@ -483,5 +493,6 @@ return {
 	operator,
 	mix,
 	morse,
-	chars
+	chars,
+	dostring
 }
