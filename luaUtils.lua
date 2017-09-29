@@ -1,56 +1,10 @@
 --[[					Made By TheJoshua974
-USAGES:
-	console.log("TYPE","Message") -- Log something
-
-	os.clear() -- Clear the console 
-	
-	table.to2D("String or Numbers") -- Returns a table in a 2D Array
-	
-	console.error("Type","Message","Other Infos") --Advanced erroring
-	
-	sleep(2) -- Time to wait 
-
-	console.slowPrint("str") -- Prints a string slowly (Uses sleep function)
-	
-	console.slowWrite("str") -- Writes a string slowly (Uses sleep function)
-
-	io.readfile("path/to/file") -- Returns the content of a file
-
-	table.toString({"table"}) -- Returns a table as a string
-
-	io.store("filename","data",false) -- io.store store data in a file and the 
-	"false" means no new line at end of the file
-
-	string.random(2) -- How many random characters you want.
-	
-	string.split("str","split") -- split a string into a table.
-
-	os.find("file","directory") -- Find a folder or a file in the directory
-	
-	table.merge({"table1"},{"table2"}) -- combine 2 tables
-
-	mix("str or int") -- Can also be used as string.mix or 
-	math.mix : Mix the given string/number 
-
-	table.list({"table"}) -- List a table (Also return count)
-
-	os.getOS -- Get your OS
-
-	table.head -- return first value of a table
-
-	table.tail -- return the tail of a table
-
-	morse -- table
-
-	string.startswith("str","s") -- check if "str" starts with "s"
-
-	string.endswith("str","tr") -- check if "str" ends with "tr"
-
-	os.getArch() -- get Lua architecture -32/64 bits
-
-	table.find({"a","b","c","d"},"c") -- Search for a value in a table, 
-	also returns where is the value (in this case, 3)
-	if nothing is found it will return nil, -1
+	Wiki: https://github.com/TheJoshua974/Utils/wiki
+	Source code (for updates): https://github.com/TheJoshua974/Utils
+	Github page: https://github.com/TheJoshua974/Utils
+	Where you found this: https://github.com/TheJoshua974/Utils
+	What's the best Utils file: https://github.com/TheJoshua974/Utils
+	If the Wiki is not done yet but there's a readme.md go there: https://github.com/TheJoshua974/Utils/blob/master/README.md
 ]]
 
 local chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
