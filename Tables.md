@@ -1,4 +1,4 @@
-# Tables
+# Table library
 * `table.merge()`  
 Arguments: Table, and another table  
 _Merge two tables_
