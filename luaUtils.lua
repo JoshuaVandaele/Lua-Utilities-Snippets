@@ -443,14 +443,19 @@ end
 --------------------------------------------------------------------
 
 local function dostring(str)
+	if not str then str = "" end
 	local f = io.open("dostring.tmp","w") -- open the file
 	f:write(str) -- write the str
 	f:close() -- close the file
 
-	local result = dofile("dostring.tmp") -- execute the file
+	local success,result = pcall(dofile,"dostring.tmp") -- execute the file
 	os.remove("dostring.tmp") -- remove the file
-	return result -- return the result if anything outputs
+	if not success then
+		error(result)
+	end
+	return result
 end
+
 return {
 	---------------console
 	console,
