@@ -27,3 +27,6 @@ _Encodes a string to Base 64_
 * `string.decode.b64`  
 Arguments: string  
 _Decodes a string to Base 64_
+* `string.totable`   
+Arguments: string   
+_Turns a string to a table_
