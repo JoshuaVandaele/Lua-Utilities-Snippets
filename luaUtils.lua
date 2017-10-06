@@ -442,18 +442,19 @@ local function string.decode.b64(data)
 end
 --------------------------------------------------------------------
 
-local function dostring(str)
-	if not str then str = "" end
-	local f = io.open("dostring.tmp","w") -- open the file
-	f:write(str) -- write the str
-	f:close() -- close the file
-
-	local success,result = pcall(dofile,"dostring.tmp") -- execute the file
-	os.remove("dostring.tmp") -- remove the file
-	if not success then
-		error(result)
+local function os.shutdown(force)
+	if force and os.getOS == "windows" then
+		force = " /f"
+	elseif force and os.getOS == "linux" then
+		force = ""
+	else
+		force = ""
 	end
-	return result
+	if os.getOS == "windows" then
+		os.execute("shutdown /t 00 /d u /c \"The current Lua program did shutdown your computer.\""..force)
+	--else
+	--	os.execute("linux shutdown wish idk atm i'm waiting for my internet to be back to add it"..force)
+	end
 end
 
 return {
@@ -482,7 +483,7 @@ return {
 	os.find,
 	os.clear,
 	os.getOS,
-	os.getArch,
+	os.getArchos,
 	---------------table
 	table.merge,
 	table.to2D,
