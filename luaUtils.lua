@@ -445,7 +445,7 @@ function string.totable(str)
 	return string.split(str," ")
 end
 
-return {
+--[[return {
 	---------------console
 	console,
 	console.log,
@@ -490,4 +490,4 @@ return {
 	morse,
 	chars,
 	dostring
-}
+}]]
