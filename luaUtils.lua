@@ -9,12 +9,12 @@
 
 local chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 
-local string.encode = {}
-local string.decode = {}
-local console = {}
+string.encode = {}
+string.decode = {}
+console = {}
 
 --took that from http://lua-users.org/wiki/FunctionalLibrary !
-local operator = {
+operator = {
      pow = math.pow;
      add = function(n, m) return n + m end;
      sub = function(n, m) return n - m end;
@@ -83,7 +83,7 @@ local morse = {
   ["@"] = ".--.-."
 }
 
-local function console.error(type,msg,other)
+function console.error(type,msg,other)
 	
 	if other ~= nil then --Check if other an argument
 		other = "Other informations: " .. other .. "\n" -- if so, add it
@@ -104,7 +104,7 @@ local function console.error(type,msg,other)
 		.. other) -- error it !
 end
 
-local function os.getOS() -- the good ol' trick
+function os.getOS() -- the good ol' trick
 	if package.config:sub(1, 1) == '\\' then 
 		return 'windows'
 	elseif  package.config:sub(1, 1) == '/' then
@@ -114,23 +114,23 @@ local function os.getOS() -- the good ol' trick
 	end
 end
 
-local function os.getArch()
+function os.getArch()
  return (#tostring({})-7)*4 -- Another good ol' trick
 end
 
-local function console.log(type,...)
+function console.log(type,...)
 	if not type then
 		type = "INFO" -- probably what ppls do when they set it to false
 	end
 	print(os.date("[%x|%X] [" .. type:upper() .. "]"),...) -- prints it to the console/terminal
 end
 
-local function sleep(s)
+function sleep(s)
   local t = os.clock() + s
   repeat until os.clock() > t -- hand made, but works very well!
 end
 
-local function os.clear()
+function os.clear()
 	if not os.execute("clear") then -- if not linux
 		os.execute("cls") -- do windows
 	elseif not os.execute("cls") then --else if not linux/windows
@@ -140,7 +140,7 @@ local function os.clear()
 	end
 end
 
-local function table.to2D(arg)
+function table.to2D(arg)
 	local arg = tostring(arg)
 	local t = {}
 	local line = {}
@@ -158,12 +158,12 @@ local function table.to2D(arg)
 end
 
 
-local function table.toString(t)
+function table.toString(t)
 	local a = table.concat(t,", ") -- do i even need to comment that?
 	return "{" .. a .. "}"
 end
 
-local function console.slowPrint(str)
+function console.slowPrint(str)
 	local str = tostring(str)
 	
 	if not type(str) == 'string' then 
@@ -179,7 +179,7 @@ local function console.slowPrint(str)
 	print() -- new space
 end
 
-local function console.slowWrite(str) -- same as above without the newspace
+function console.slowWrite(str) -- same as above without the newspace
 	local str = tostring(str)
 	
 	if not type(str) == 'string' then 
@@ -194,7 +194,7 @@ local function console.slowWrite(str) -- same as above without the newspace
 	end
 end
 
-local function io.readfile(path)
+function io.readfile(path)
     local file = open(path, "rb") --open the file
     if not file then return nil end
     local content = file:read "*a" -- read the file and store the content
@@ -202,7 +202,7 @@ local function io.readfile(path)
     return content -- return the content
 end
 
-local function io.store(file, data, nl)
+function io.store(file, data, nl)
 	if not file or not data then 
 		return false
 	end
@@ -219,7 +219,7 @@ local function io.store(file, data, nl)
 	return true
 end
 
-local function string.random(count,min,max)
+function string.random(count,min,max)
 	
 	if not count then
 		count = 1
@@ -247,19 +247,19 @@ local function string.random(count,min,max)
 	return rds
 end
 
-local function string.decode.hex(str)
-    return (str:gsub('..', local function (cc)
+function string.decode.hex(str)
+    return (str:gsub('..', function (cc)
         return string.char(tonumber(cc, 16))
     end))
 end
 
-local function string.encode.hex(str)
-    return (str:gsub('.', local function (c)
+function string.encode.hex(str)
+    return (str:gsub('.', function (c)
         return string.format('%02X', string.byte(c))
     end))
 end
 
-local function string.split(str,split)
+function string.split(str,split)
 	if not str then
 		console.error("Can't split with nil","Hey have you tried splitting " .. 
 			"air? Spoiler: it dont work") --What did you expected me to say? :p
@@ -271,7 +271,7 @@ local function string.split(str,split)
 	return array
 end
 
-local function os.find(file,path)
+function os.find(file,path)
 	local os = os.getOS:lower()
 	local cmd
 	if os == "windows" then 
@@ -298,7 +298,7 @@ local function os.find(file,path)
 end
 
 
-local function table.merge(t1, t2)
+function table.merge(t1, t2)
 	if not t1 then -- this piece of code is horrible, but it works
 		return false
 	end
@@ -334,7 +334,7 @@ local function table.merge(t1, t2)
 	return t
 end
 
-local function mix(unknown)
+function mix(unknown)
 	local n = false
 	if type(unknown) == "number" then
 		unknown = tostring(unknown)
@@ -361,7 +361,7 @@ end
 local string.mix = mix -- I was way too lazy
 local math.mix = mix -- sowwy
 
-local function table.list(t) -- no need to explain
+function table.list(t) -- no need to explain
 	local tstr = ""
 	local c = 0
 	for k,v in pairs(t) do
@@ -371,7 +371,7 @@ local function table.list(t) -- no need to explain
 	return tstr:sub(0,#tstr-2), c
 end
 
-local function table.find(t, value)
+function table.find(t, value)
 	local c = 0
 	for k, v in pairs(t) do
 		c = c+1
@@ -382,11 +382,11 @@ local function table.find(t, value)
 	return nil, -1
 end
 
- local function table.head(t)
+ function table.head(t)
      return t[1]
  end
 
-local function table.tail(t)
+function table.tail(t)
 	local nt = {}
 	local _,ts = table.list(t)
 	if ts < 1 then
@@ -400,19 +400,19 @@ local function table.tail(t)
 	return nt
 end
 
-local function string.startswith(str, ptrn)
+function string.startswith(str, ptrn)
 	return string.find(str, ptrn, 1) == 1
 end
 
-local function string.endswith(str, ptrn)
+function string.endswith(str, ptrn)
 	local s = #str + 1 - #ptrn
 	return string.find(str, ptrn, s) == s
 end
 ------B64 from http://lua-users.org/wiki/BaseSixtyFour--------------
---I just edited the local function names.
+--I just edited the function names.
 -- Lua 5.1+ base64 v3.0 (c) 2009 by Alex Kloss <alexthkloss@web.de>
 -- licensed under the terms of the LGPL2
-local function string.encode.b64(data)
+function string.encode.b64(data)
     return ((data:gsub('.', function(x) 
         local r,b='',x:byte()
         for i=8,1,-1 do r=r..(b%2^i-b%2^(i-1)>0 and '1' or '0') end
@@ -425,7 +425,7 @@ local function string.encode.b64(data)
     end)..({ '', '==', '=' })[#data%3+1])
 end
 
-local function string.decode.b64(data)
+function string.decode.b64(data)
     data = string.gsub(data, '[^'..chars..'=]', '')
     return (data:gsub('.', function(x)
         if (x == '=') then return '' end
@@ -441,7 +441,7 @@ local function string.decode.b64(data)
 end
 --------------------------------------------------------------------
 
-local function string.totable(str)
+function string.totable(str)
 	return string.split(str," ")
 end
 
@@ -466,7 +466,8 @@ return {
 	string.encode.hex,
 	string.decode.hex,
 	string.encode.b64,
-	string.decode.b64
+	string.decode.b64,
+	string.totable,
 	---------------os
 	os.find,
 	os.clear,
@@ -480,7 +481,6 @@ return {
 	table.head,
 	table.tail,
 	table.find,
-	string.totable,
 	---------------math
 	math.mix,
 	---------------Others
