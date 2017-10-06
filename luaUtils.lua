@@ -442,23 +442,6 @@ local function string.decode.b64(data)
 end
 --------------------------------------------------------------------
 
-local function os.shutdown(force)
-	if force and os.getOS == "windows" then
-		force = " /f"
-	elseif force and os.getOS == "linux" then
-		force = "f"
-	else
-		force = ""
-	end
-
-	if os.getOS == "windows" then
-		os.execute("shutdown /t 00 /d u /c \"The current Lua program did shutdown your computer.\""..force)
-	elseif force == ""
-		os.execute("shutdown -P"..force.." -t 00 \"The current Lua program did shutdown your computer.\"")
-	else
-		return
-	end
-end
 
 return {
 	---------------console
