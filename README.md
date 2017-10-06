@@ -47,8 +47,6 @@ clear the terminal, works with all OS
 returns the current OS
 * `os.getArch()`
 get if the arch is 64 bits or 32 bits
-* `os.shutdown`
-Shutdowns the os (Windows or Linux maybe Mac, not tested with Mac)
 
 ## Table
 * `table.merge(t1,t2)`
@@ -82,7 +80,7 @@ will wait the amount of time given
 * `operator`
 Operators, can always be useful
 * `morse`
-A table with char to morsein it
+A table with char for morse in it
 * `chars`
 a string with all chars, used for  `string.encode.b64(str)`
 * `mix`
