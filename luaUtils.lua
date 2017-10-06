@@ -358,8 +358,8 @@ function mix(unknown)
 	return out
 end
 
-local string.mix = mix -- I was way too lazy
-local math.mix = mix -- sowwy
+string.mix = mix -- I was way too lazy
+math.mix = mix -- sowwy
 
 function table.list(t) -- no need to explain
 	local tstr = ""
