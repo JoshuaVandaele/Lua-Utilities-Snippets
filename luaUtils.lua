@@ -15,7 +15,6 @@ local console = {}
 
 --took that from http://lua-users.org/wiki/FunctionalLibrary !
 local operator = {
-     mod = math.mod;
      pow = math.pow;
      add = function(n, m) return n + m end;
      sub = function(n, m) return n - m end;
@@ -442,6 +441,9 @@ local function string.decode.b64(data)
 end
 --------------------------------------------------------------------
 
+local function string.totable(str)
+	return string.split(str," ")
+end
 
 return {
 	---------------console
@@ -477,7 +479,8 @@ return {
 	table.list,
 	table.head,
 	table.tail,
-	table.find;
+	table.find,
+	string.totable,
 	---------------math
 	math.mix,
 	---------------Others

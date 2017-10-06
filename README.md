@@ -27,6 +27,8 @@ decode a string into hex
 encode a string into base64
 * `string.decode.b64(str)`
 decode a string into base64
+* `string.totable`
+transforms a string to a table
 
 ## I/O
 * `io.readfile(path/to/file.txt)`
