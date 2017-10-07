@@ -67,6 +67,8 @@ returns first value
 returns the tail of the table
 * `table.find(tbl)`
 find a value in a table
+* `table.reverse(tbl)`
+reverses a table. Warning: only works with normal keys (1,2,3..)
 
 ## Console
 * `console.log(str)`

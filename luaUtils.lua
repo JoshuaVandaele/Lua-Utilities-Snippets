@@ -457,6 +457,14 @@ function math.calc(arg)
     return result
 end
 
+function table.reverse(t)
+	local nt = {}
+	for i = 1,#t do
+		nt[i] = t[#t+1-i]
+	end
+	return nt
+end
+
 --[[return {
 	---------------console
 	console,
