@@ -465,8 +465,8 @@ function table.reverse(t)
 	return nt
 end
 
-function isType(obj,type)
-	return type(obj) == type
+function isType(obj,typecheck)
+	return type(obj) == typecheck
 end
 
 --[[return {
