@@ -465,6 +465,10 @@ function table.reverse(t)
 	return nt
 end
 
+function isType(obj,type)
+	return type(obj) == type
+end
+
 --[[return {
 	---------------console
 	console,
@@ -501,6 +505,7 @@ end
 	table.head,
 	table.tail,
 	table.find,
+	table.reverse,
 	---------------math
 	math.mix,
 	---------------Others
@@ -509,5 +514,6 @@ end
 	mix,
 	morse,
 	chars,
-	dostring
+	dostring,
+	isType
 }]]

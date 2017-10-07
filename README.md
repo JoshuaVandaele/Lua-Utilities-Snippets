@@ -93,3 +93,5 @@ a string with all chars, used for  `string.encode.b64(str)`
 mix a string or ints
 * `dostring`
 a remake of the old loadstring for Lua 5.3 - execute a string as a piece of code
+* `isType`
+Shorter for type(obj) == "obj"
