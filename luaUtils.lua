@@ -1,10 +1,7 @@
 --[[					Made By TheJoshua974
-	Wiki: https://github.com/TheJoshua974/Utils/wiki
-	Source code (for updates): https://github.com/TheJoshua974/Utils
+	Wiki: https://github.com/TheJoshua974/Utils/wiki (If the Wiki is not updated use the README.MD)
+	Source: https://github.com/TheJoshua974/Utils
 	Github page: https://github.com/TheJoshua974/Utils
-	Where you found this: https://github.com/TheJoshua974/Utils
-	What's the best Utils file: https://github.com/TheJoshua974/Utils
-	If the Wiki is not done yet but there's a readme.md go there: https://github.com/TheJoshua974/Utils/blob/master/README.md
 ]]
 
 local chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
@@ -443,6 +440,21 @@ end
 
 function string.totable(str)
 	return string.split(str," ")
+end
+
+function math.calc(arg)
+    if not arg then return end
+    input = arg
+    arg = "return (" .. arg .. ")"
+
+    local sandbox = setmetatable({}, {__index = math})
+
+    local fn, syntaxError = load(arg, 'Calc', 't', sandbox)
+    if not fn then return syntaxError end
+
+    local success, result = pcall(fn)
+    if not success then return result end
+    return result
 end
 
 --[[return {

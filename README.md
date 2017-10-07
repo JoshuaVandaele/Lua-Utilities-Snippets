@@ -39,6 +39,8 @@ stores data into a file, the "true" mean we do a new line at the end of the file
 ## Math
 * `math.mix`
 see  `mix`
+* `math.calc`
+Calculator sandboxed (You can't inject code)
 
 ## OS
 * `os.find("file","dir")`
