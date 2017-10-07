@@ -8,3 +8,6 @@ _Mix the given int or string_
 * `dostring`  
 Arguments: String  
 _Remake of loadstring for Lua 5.3_
+* `isType`   
+Arguments: obj, string   
+_Shortcut for `type(obj) == string`
