@@ -20,3 +20,6 @@ _Returns the tail of a table_
 * `table.find()`  
 Arguments: Table  
 _Searches for a value in a table_
+* `table.reverse()`   
+Arguments: Table   
+_Reverses a table_
