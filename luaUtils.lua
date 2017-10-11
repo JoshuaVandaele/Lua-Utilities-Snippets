@@ -129,7 +129,6 @@ end
 
 function os.clear()
   if not os.execute("clear") then -- if not linux
-    os.execute("cls") -- do windows
   elseif not os.execute("cls") then --else if not linux/windows
     for i = 1,25 do -- print many \n's
       print("\n\n")
