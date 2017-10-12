@@ -128,8 +128,7 @@ function sleep(s)
 end
 
 function os.clear()
-  if not os.execute("clear") then -- if not linux
-  elseif not os.execute("cls") then --else if not linux/windows
+  if not os.execute("clear") or not os.execute("cls") then -- if not linux/windows
     for i = 1,25 do -- print many \n's
       print("\n\n")
     end
