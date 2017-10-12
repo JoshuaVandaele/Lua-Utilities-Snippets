@@ -467,6 +467,10 @@ function isType(obj,typecheck)
   return type(obj) == typecheck
 end
 
+function os.outputexec(...)
+  return io.popen(table.concat({...},' ')):read("*a")
+end
+
 --[[return {
   ---------------console
   console,
@@ -495,6 +499,7 @@ end
   os.clear,
   os.getOS,
   os.getArchos,
+  os.outputexec,
   ---------------table
   table.merge,
   table.to2D,

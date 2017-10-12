@@ -51,6 +51,8 @@ clear the terminal, works with all OS
 returns the current OS
 * `os.getArch()`
 get if the arch is 64 bits or 32 bits
+* `os.outputexec`   
+Get the output of a system command
 
 ## Table
 * `table.merge(t1,t2)`
