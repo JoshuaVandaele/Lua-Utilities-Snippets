@@ -8,3 +8,6 @@ _Clears the console_
 _Get the current OS being used_  
 * `os.getArch()`  
 _Returns what's the current Lua architecture (32 or 64 bits)_
+* `os.outputexec`   
+Arguments: system command   
+_Get the output of a system command as a string_
