@@ -442,7 +442,7 @@ end
 
 function math.calc(arg)
     if not arg then return end
-    arg = arg:gsub("function",""):gsub("while",""):gsub("[\"\'[]","")
+    arg = arg:lower():gsub("function",""):gsub("while",""):gsub("[\"\'[]",""):gsub("rep","")
     input = arg
     arg = "return (" .. arg .. ")"
 
