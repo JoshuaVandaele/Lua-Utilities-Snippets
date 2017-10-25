@@ -443,7 +443,6 @@ end
 function math.calc(arg)
     if not arg then return end
     arg = arg:lower():gsub("function",""):gsub("while",""):gsub("[\"\'[]",""):gsub("rep","")
-    input = arg
     arg = "return (" .. arg .. ")"
 
     local sandbox = setmetatable({}, {__index = math})
