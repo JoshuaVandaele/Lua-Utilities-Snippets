@@ -11,3 +11,6 @@ _Writes someting slowly_
 * `console.error()`  
 Arguments: error, message, additional infos
 _Erroring with additional arguments_
+* `console.update()`  
+Arguments: bool, string...
+_Boolean: does the text appear slowly, String: text that will appear_
