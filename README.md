@@ -81,6 +81,8 @@ prints something slowly
 writes something slowly (using io.write)
 * `console.error(error type, error message, additional infos)`
 advanced erroring
+* `console.update(bool,str...)`
+Will update the console, bool: is the text slowly appearing.
 
 ## Others
 * `sleep(t)`

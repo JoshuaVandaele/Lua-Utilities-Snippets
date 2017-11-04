@@ -1,7 +1,6 @@
 --[[          Made By TheJoshua974
   Wiki: https://github.com/TheJoshua974/Utils/wiki (If the Wiki is not updated use the README.MD)
   Source: https://github.com/TheJoshua974/Utils
-  Github page: https://github.com/TheJoshua974/Utils
 ]]
 
 local chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
@@ -442,12 +441,12 @@ end
 
 function math.calc(arg)
     if not arg then return end
-    arg = arg:lower():gsub("function",""):gsub("while",""):gsub("[\"\'[]",""):gsub("rep","")
+    arg = arg:lower():gsub("function",""):gsub("end",""):gsub("[\"\'[]",""):gsub("rep","") --make sure peoples don't try to break it
     arg = "return (" .. arg .. ")"
 
-    local sandbox = setmetatable({}, {__index = math})
+    local sandbox = setmetatable({}, {__index = math}) -- make a sandbox
 
-    local fn, syntaxError = load(arg, 'Calc', 't', sandbox)
+    local fn, syntaxError = load(arg, 'Calc', 't', sandbox) -- execute the "code"
     if not fn then return syntaxError end
 
     local success, result = pcall(fn)
@@ -467,9 +466,25 @@ function isType(obj,typecheck)
   return type(obj) == typecheck
 end
 
-function os.outputexec(...)
-  return io.popen(table.concat({...},' ')):read("*a")
+function os.outputexec(...) 
+  return io.popen(table.concat({...},' ')):read("*a") -- get the output of a system cmd
 end
+
+function console.update(slow,...)
+  local args = {...}
+  os.clear()
+  local vprint
+  if slow then
+    vprint = console.slowPrint
+  else
+    vprint = print
+  end
+
+  for i = 1,#args do
+    vprint(args[i])
+  end
+end
+
 
 --[[return {
   ---------------console
@@ -478,6 +493,7 @@ end
   console.slowPrint,
   console.slowWrite,
   console.error,
+  console.update,
   ---------------io
   io.readfile,
   io.store,
