@@ -1,6 +1,6 @@
---[[          Made By TheJoshua974
-  Wiki: https://github.com/TheJoshua974/Utils/wiki (If the Wiki is not updated use the README.MD)
-  Source: https://github.com/TheJoshua974/Utils
+--[[          Made By Folfy Blue
+  Wiki: https://github.com/FolfyBlue/Utils/wiki (If the Wiki is not updated use the README.MD)
+  Source: https://github.com/FolfyBlue/Utils
 ]]
 
 local chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
