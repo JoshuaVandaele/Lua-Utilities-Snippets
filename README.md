@@ -1,7 +1,7 @@
 # Utils
 Useful Utilities for Lua!
 
-This file was made firstly for myself, but then I wanted to share it with ppls, so here it is!
+This file was made firstly for myself, but then I wanted to share it with people, so here it is!
 
 # Utilities avaible:
 ## String
@@ -53,7 +53,8 @@ returns the current OS
 get if the arch is 64 bits or 32 bits
 * `os.outputexec`   
 Get the output of a system command
-
+* `os.splitpath(path)`
+Splits the path
 ## Table
 * `table.merge(t1,t2)`
 merges two tables

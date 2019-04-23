@@ -78,27 +78,49 @@ local morse = {
   ["&"] = "...-..-",
   ["@"] = ".--.-."
 }
-
-function console.error(type,msg,other)
-  
-  if other ~= nil then --Check if other an argument
-    other = "Other informations: " .. other .. "\n" -- if so, add it
-  else
-    other = ""
+--------------------------------------------------------------------------
+--                          [--   OTHERS   --]
+--------------------------------------------------------------------------
+function mix(unknown)
+  local n = false
+  if type(unknown) == "number" then
+    unknown = tostring(unknown)
+    n = true
+  end -- set the int as a string
+  local out = {}
+  for i = 1, #unknown do
+    table.insert(out,unknown:sub(i, i)) -- making each char as a string
   end
-  if msg ~= nil then -- check if there's an error message
-    msg = "\nDetailed message: " .. msg .. "\n" -- if so, add it
-  else
-    msg = ""
+  for i = 1, #unknown do
+    local a = math.random(1, #unknown)
+    local b = math.random(1, #unknown) -- makin random numbers
+    local atemp = out[a]
+    out[a] = out[b] -- mixing tables
+    out[b] = atemp -- mixing tables
   end
-
-  if not type then --check if the type is a give argument
-    type = "Unknown" --if not, make it unknown
+  local out = table.concat(out) -- making tables ints
+  if n then
+    out = tonumber(out) -- if it was a int make the int gr8 again
   end
-
-  error(os.date("\n[%x|%X]") .. " An error occured !\nType : " .. type .. msg 
-    .. other) -- error it !
+  return out
 end
+
+function isType(obj,typecheck)
+  return type(obj) == typecheck
+end
+
+function sleep(s)
+  local t = os.clock() + s
+  repeat until os.clock() => t -- hand made, but works very well!
+end
+----------------------------------------------------------------------
+--                          [--   OS   --]
+----------------------------------------------------------------------
+
+function os.splitpath(s)
+  return s:match(s, "(.-)([^\\]-([^%.]+))$") -- returns C:\Path\, directory.ext, ext
+end
+
 
 function os.getOS() -- the good ol' trick
   if package.config:sub(1, 1) == '\\' then 
@@ -114,18 +136,6 @@ function os.getArch()
  return (#tostring({})-7)*4 -- Another good ol' trick
 end
 
-function console.log(type,...)
-  if not type then
-    type = "INFO" -- probably what ppls do when they set it to false
-  end
-  print(os.date("[%x|%X] [" .. type:upper() .. "]"),...) -- prints it to the console/terminal
-end
-
-function sleep(s)
-  local t = os.clock() + s
-  repeat until os.clock() > t -- hand made, but works very well!
-end
-
 function os.clear()
   if not os.execute("clear") and not os.execute("cls") then -- if not linux/windows
     for i = 1,25 do -- print many \n's
@@ -134,84 +144,40 @@ function os.clear()
   end
 end
 
-function table.to2D(arg)
-  local arg = tostring(arg)
-  local t = {}
-  local line = {}
+function os.outputexec(...) 
+  return io.popen(table.concat({...},' ')):read("*a") -- get the output of a system cmd
+end
 
-  for i = 1, #arg do
-     local c = arg:sub(i,i) -- take one char
-     if c == "\n" then -- make a new table if the char is a new space
-         line = {}
-         table.insert(t, line)
-     else -- else insert the char to the current table
-         table.insert(line, c)
-     end
+
+function os.find(file,path)
+  local os = os.getOS:lower()
+  local cmd
+  if os == "windows" then 
+    cmd = "dir" 
+  elseif os == "linux" or os == "mac" or os == "macos"
+  then
+    cmd = "ls"
+  else
+    error("Invalid OS!")
   end
-  return t
-end
 
-
-function table.toString(t)
-  local a = table.concat(t,", ") -- do i even need to comment that?
-  return "{" .. a .. "}"
-end
-
-function console.slowPrint(str)
-  local str = tostring(str)
+  if not file then
+    error("Can't find \"nil\"","git gud"
+      ,"What did you expect me to say? like searching NOT" ..
+      "HING, NIL, NULL, EMPTY, etc.. :<")
+  end
   
-  if not type(str) == 'string' then 
-    return nil
-  end
-
-  local n = 0
-  for i = 1,#str do
-    n = n + 1
-    sleep(0.05) -- uses the sleep function to wait before io.write-ting
-    io.write(str:sub(n, n))
-  end
-  print() -- new space
-end
-
-function console.slowWrite(str) -- same as above without the newspace
-  local str = tostring(str)
-  
-  if not type(str) == 'string' then 
-    return nil
-  end
-
-  local n = 0
-  for i = 1,#str do
-    n = n + 1
-    sleep(0.05)
-    io.write(str:sub(n, n))
-  end
-end
-
-function io.readfile(path)
-    local file = open(path, "rb") --open the file
-    if not file then return nil end
-    local content = file:read "*a" -- read the file and store the content
-    file:close() -- close the file
-    return content -- return the content
-end
-
-function io.store(file, data, nl)
-  if not file or not data then 
+  local f = io.popen(cmd .. " " .. path)
+  if string.find(f:read("*a"), file) then -- if the file / folder is find with the cmd above
+    return true
+  else
     return false
   end
-
-  if not nl then
-    nl = ""
-  else
-    nl = "\n"
-  end
-
-  local file = io.open(file, "a+") -- oppens the file in append mode +
-  file:write(data, nl) -- write stuff
-  file:close() -- close stuff
-  return true
 end
+
+---------------------------------------------------------------------------
+--                          [--   STRINGS   --]
+---------------------------------------------------------------------------
 
 function string.random(count,min,max)
   
@@ -227,7 +193,7 @@ function string.random(count,min,max)
   end
 
   if max > 255 or min < 1 or max < 1 or min > 255 then
-    console.error("Synthax error: Select a number between 1-255.")
+    error("Synthax error: Select a number between 1-255.")
   elseif max < min then
     local tmin = min
     max = min
@@ -255,7 +221,7 @@ end
 
 function string.split(str,split)
   if not str then
-    console.error("Can't split with nil","Hey have you tried splitting " .. 
+    error("Can't split with nil","Hey have you tried splitting " .. 
       "air? Spoiler: it dont work") --What did you expected me to say? :p
   end
   local array = {}
@@ -263,135 +229,6 @@ function string.split(str,split)
      table.insert(array, w) -- insert the matchin' stuff in a table
   end 
   return array
-end
-
-function os.find(file,path)
-  local os = os.getOS:lower()
-  local cmd
-  if os == "windows" then 
-    cmd = "dir" 
-  elseif os == "linux" or os == "mac" or os == "macos"
-  then
-    cmd = "ls"
-  else
-    console.error("Invalid OS!")
-  end
-
-  if not file then
-    console.error("Can't find \"nil\"","git gud"
-      ,"What did you expect me to say? like searching NOT" ..
-      "HING, NIL, NULL, EMPTY, etc.. :<")
-  end
-  
-  local f = io.popen(cmd .. " " .. path)
-  if string.find(f:read("*a"), file) then -- if the file / folder is find with the cmd above
-    return true
-  else
-    return false
-  end
-end
-
-
-function table.merge(t1, t2)
-  if not t1 then -- this piece of code is horrible, but it works
-    return false
-  end
-  if not t2 then
-    return t1
-  end
-  local t = {}
-  for _,a,b,c in pairs(t1) do
-    if a and b and c then
-      table.insert(t, a)
-      table.insert(t, b)
-      table.insert(t, c)
-    elseif a and b then
-      table.insert(t, a)
-      table.insert(t, b)
-    else
-      table.insert(t, a)
-    end
-  end
-
-  for _, a, b, c in pairs(t2) do
-    if a and b and c then
-      table.insert(t, a)
-      table.insert(t, b)
-      table.insert(t, c)
-    elseif a and b then
-      table.insert(t, a)
-      table.insert(t, b)
-    else
-      table.insert(t, a)
-    end
-  end
-  return t
-end
-
-function mix(unknown)
-  local n = false
-  if type(unknown) == "number" then
-    unknown = tostring(unknown)
-    n = true
-  end -- set the int as a string
-  local out = {}
-  for i = 1, #unknown do
-    table.insert(out,unknown:sub(i, i)) -- making each char as a string
-  end
-  for i = 1, #unknown do
-    local a = math.random(1, #unknown)
-    local b = math.random(1, #unknown) -- makin random numbers
-    local atemp = out[a]
-    out[a] = out[b] -- mixing tables
-    out[b] = atemp -- mixing tables
-  end
-  local out = table.concat(out) -- making tables ints
-  if n then
-    out = tonumber(out) -- if it was a int make the int gr8 again
-  end
-  return out
-end
-
-string.mix = mix -- I was way too lazy
-math.mix = mix -- sowwy
-
-function table.list(t) -- no need to explain
-  local tstr = ""
-  local c = 0
-  for k,v in pairs(t) do
-    c = c+1
-    tstr = tstr .. k .. " = " .. v .. ",\n"
-  end
-  return tstr:sub(0,#tstr-2), c
-end
-
-function table.find(t, value)
-  local c = 0
-  for k, v in pairs(t) do
-    c = c+1
-    if value == v then -- omygud it match
-      return v, c
-    end
-  end
-  return nil, -1
-end
-
- function table.head(t)
-     return t[1]
- end
-
-function table.tail(t)
-  local nt = {}
-  local _,ts = table.list(t)
-  if ts < 1 then
-    return {}
-  end
-  i = 2
-  while (i <= ts) do
-    table.insert(nt, (i - 1), t[i]) -- make a new table with the head remov'd
-    i = i + 1
-  end
-  return nt
 end
 
 function string.startswith(str, ptrn)
@@ -434,24 +271,76 @@ function string.decode.b64(data)
     end))
 end
 --------------------------------------------------------------------
+string.mix = mix
 
 function string.totable(str)
-  return string.split(str," ")
+  return string.split(str,",")
 end
 
-function math.calc(arg)
-    if not arg then return end
-    arg = arg:lower():gsub("function",""):gsub("end",""):gsub("[\"\'[]",""):gsub("rep","") --make sure peoples don't try to break it
-    arg = "return (" .. arg .. ")"
+----------------------------------------------------------------------
+--                          [--   IO   --]
+----------------------------------------------------------------------
 
-    local sandbox = setmetatable({}, {__index = math}) -- make a sandbox
+function io.readfile(path)
+    local file = open(path, "rb") --open the file
+    if not file then return nil end
+    local content = file:read "*a" -- read the file and store the content
+    file:close() -- close the file
+    return content -- return the content
+end
 
-    local fn, syntaxError = load(arg, 'Calc', 't', sandbox) -- execute the "code"
-    if not fn then return syntaxError end
+function io.store(file, data, nl)
+  if not file or not data then 
+    return false
+  end
 
-    local success, result = pcall(fn)
-    if not success then return result end
-    return result
+  if not nl then
+    nl = ""
+  else
+    nl = "\n"
+  end
+
+-------------------------------------------------------------------------
+--                          [--   TABLE   --]
+-------------------------------------------------------------------------
+
+function table.list(t) -- no need to explain
+  local tstr = ""
+  local c = 0
+  for k,v in pairs(t) do
+    c = c+1
+    tstr = tstr .. k .. " = " .. v .. ",\n"
+  end
+  return tstr:sub(0,#tstr-2), c
+end
+
+function table.find(t, value)
+  local c = 0
+  for k, v in pairs(t) do
+    c = c+1
+    if value == v then -- omygud it match
+      return v, c
+    end
+  end
+  return nil, -1
+end
+
+ function table.head(t)
+     return t[1]
+ end
+
+function table.tail(t)
+  local nt = {}
+  local _,ts = table.list(t)
+  if ts < 1 then
+    return {}
+  end
+  i = 2
+  while (i <= ts) do
+    table.insert(nt, (i - 1), t[i]) -- make a new table with the head remov'd
+    i = i + 1
+  end
+  return nt
 end
 
 function table.reverse(t)
@@ -462,12 +351,135 @@ function table.reverse(t)
   return nt
 end
 
-function isType(obj,typecheck)
-  return type(obj) == typecheck
+
+function table.to2D(arg)
+  local arg = tostring(arg)
+  local t = {}
+  local line = {}
+
+  for i = 1, #arg do
+     local c = arg:sub(i,i) -- take one char
+     if c == "\n" then -- make a new table if the char is a new space
+         line = {}
+         table.insert(t, line)
+     else -- else insert the char to the current table
+         table.insert(line, c)
+     end
+  end
+  return t
 end
 
-function os.outputexec(...) 
-  return io.popen(table.concat({...},' ')):read("*a") -- get the output of a system cmd
+
+function table.toString(t)
+  local a = table.concat(t,", ") -- do i even need to comment that?
+  return "{" .. a .. "}"
+end
+
+
+function table.merge(t1, t2)
+  if not t1 then -- this piece of code is horrible, but it works
+    return false
+  end
+  if not t2 then
+    return t1
+  end
+  local t = {}
+  for _,a,b,c in pairs(t1) do
+    if a and b and c then
+      table.insert(t, a)
+      table.insert(t, b)
+      table.insert(t, c)
+    elseif a and b then
+      table.insert(t, a)
+      table.insert(t, b)
+    else
+      table.insert(t, a)
+    end
+  end
+
+  for _, a, b, c in pairs(t2) do
+    if a and b and c then
+      table.insert(t, a)
+      table.insert(t, b)
+      table.insert(t, c)
+    elseif a and b then
+      table.insert(t, a)
+      table.insert(t, b)
+    else
+      table.insert(t, a)
+    end
+  end
+  return t
+end
+
+---------------------------------------------------------------------------
+--                          [--   CONSOLE   --]
+---------------------------------------------------------------------------
+
+function error(type,msg,other)
+  
+  if other ~= nil then --Check if other an argument
+    other = "Other informations: " .. other .. "\n" -- if so, add it
+  else
+    other = ""
+  end
+  if msg ~= nil then -- check if there's an error message
+    msg = "\nDetailed message: " .. msg .. "\n" -- if so, add it
+  else
+    msg = ""
+  end
+
+  if not type then --check if the type is a give argument
+    type = "Unknown" --if not, make it unknown
+  end
+
+  error(os.date("\n[%x|%X]") .. " An error occured !\nType : " .. type .. msg 
+    .. other) -- error it !
+end
+
+function console.slowPrint(str)
+  local str = tostring(str)
+  
+  if not type(str) == 'string' then 
+    return nil
+  end
+
+  local n = 0
+  for i = 1,#str do
+    n = n + 1
+    sleep(0.05) -- uses the sleep function to wait before io.write-ting
+    io.write(str:sub(n, n))
+  end
+  print() -- new space
+end
+
+function console.slowWrite(str) -- same as above without the newspace
+  local str = tostring(str)
+  
+  if not type(str) == 'string' then 
+    return nil
+  end
+
+  local n = 0
+  for i = 1,#str do
+    n = n + 1
+    sleep(0.05)
+    io.write(str:sub(n, n))
+  end
+end
+
+  local file = io.open(file, "a+") -- oppens the file in append mode +
+  file:write(data, nl) -- write stuff
+  file:close() -- close stuff
+  return true
+end
+
+
+function console.log(type,...)
+  if not type then
+    type = "INFO" -- probably what ppls do when they set it to false
+  end
+  print(os.date("[%x|%X] [" .. type:upper() .. "]"),...) -- prints it to the console/terminal
 end
 
 function console.update(slow,...)
@@ -485,6 +497,30 @@ function console.update(slow,...)
   end
 end
 
+-----------------------------------------------------------------------
+--                          [--   MATH   --]
+-----------------------------------------------------------------------
+
+function math.calc(arg)
+    if not arg then return end
+    arg = arg:lower():gsub("function",""):gsub("end",""):gsub("[\"\'[]",""):gsub("rep","") --make sure peoples don't try to break it
+    arg = "return (" .. arg .. ")"
+
+    local sandbox = setmetatable({}, {__index = math}) -- make a sandbox
+
+    local fn, syntaxError = load(arg, 'Calc', 't', sandbox) -- execute the "code"
+    if not fn then return syntaxError end
+
+    local success, result = pcall(fn)
+    if not success then return result end
+    return result
+end
+math.mix = mix
+
+
+
+
+
 
 --[[return {
   ---------------console
@@ -492,7 +528,7 @@ end
   console.log,
   console.slowPrint,
   console.slowWrite,
-  console.error,
+  error,
   console.update,
   ---------------io
   io.readfile,
@@ -516,6 +552,7 @@ end
   os.getOS,
   os.getArchos,
   os.outputexec,
+  os.splitpath,
   ---------------table
   table.merge,
   table.to2D,
