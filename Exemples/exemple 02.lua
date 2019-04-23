@@ -65,7 +65,7 @@ local sprites = {
 for i = 1,#sprites do
   os.clear()
   print(sprites[i])
-  sleep(0.2)
+  sleep(0.09)
 end
 os.clear()
 print(sprites[1])

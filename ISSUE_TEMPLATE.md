@@ -4,4 +4,4 @@
   It gives me this error message:  
   `[ERROR]`  
   
-  Hopefully you can fix it :D!
+  I hope that you will be able to fix it.
